@@ -1,0 +1,23 @@
+language: minimal
+services:
+  - docker
+
+# We build the package here. Step one builds everything and then step two
+# just copies the final file onto the host.
+before_install:
+  - docker build -t diff .
+  - docker run --rm -it --mount "type=bind,src=$(pwd),dst=/host" diff /bin/sh -c "cp /build/diff-*.zip /host"
+
+# Display the SHA-256 checksum of the file
+before_deploy:
+  - sha256sum diff-*.zip
+
+deploy:
+  provider: releases
+  api_key:
+      secure: lt6c0e8tsa1dvXLzDdJquGhvPV+LmisZLAoyzMuuJmTFRMIG1T0ieSHSqXVGYxNWGUjqGLBYrT1jxponU8EZAsAa04LhCzGFdPL2wcgZVo9eFPbFxa1sXQtRnMXMFDLNUDfLPBiea8Mkqy9ji/nkr5u1X3b+R3dd1hKc3CXpMwmNgDSV5EfQ5hNsMaVHGMRCJlYGt04hMGBkjpPj1RJ78S2cy7lhl2E9fqXf0nJqbMiDDi8XZrK9twXNVdrE6tG6EQav0JgkkKVqBmA7vI0358K/uqgs7Cqt7UW2i+C5Jpf7nBg4Mt2ixj8R9gf1oCfTPmsx1GmZM/TJTzA0r59SM2lVKOcDwPM1eyhPr8gnEbVH/JDNVRtdAx/kH9R0eo5Izz232pWa8eESQzMm5nGt20ZkKiewKZelec6JJFK/Scwu5p+KLOqlwtM2Pq/Rto01BRPXGD1M89lnn/V8/dnAl15u4NInigikLjExlhxeNUp2LDcOxIqJDisAHv9ANSVb0OSdlBkXIp9RhxQPye6n9Gc/mmDDS9XHvA4tTA8peeal1kU0hDDLEGZLHtkkmiWQmSwWagajyU0H3Bz1w/SvibrHFelVEw6EjVqfX/UljTj4NTe4hyK7y81etyxe9D+eDqK3tk7BWBDP5b6W1zKMQb9WdM4S5RDGwR/XMSp0OEU=
+  file_glob: true
+  file: "diff-*.zip"
+  skip_cleanup: true
+  on:
+    tags: true

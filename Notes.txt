@@ -1,0 +1,25 @@
+Some notes on setting this project up
+=====================================
+
+To get a deployment key for Travis, go to github, my user settings page.
+Choose "Developer Settings" from the sidebar, and "Personal Access
+Tokens" from there. Create a personal access token and copy the value.
+
+To put that token securely in `.travis.yml` needs a Travis command line
+client (unlike Appveyor, there doesn't seem to be a way to do this in
+the web UI). For a Python user, the simplest to set up was `travis-encrypt`
+which can be installed via pip:
+
+```
+pew mktmpenv
+pip install travis-encrypt
+```
+
+To do the encryption:
+
+```
+travis-encrypt pfmoore builder-diffutils .\.travis.yml
+```
+
+This updates `.travis.yml`, and you can move the added line to where
+it needs to go.
