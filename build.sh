@@ -8,7 +8,7 @@ tar xf diffutils-${DIFF_VER}.tar.xz
 cd diffutils-${DIFF_VER}
 
 # Static to avoid depending on libwinpthread-1.dll at runtime
-mingw64-configure LDFLAGS="-static" --disable-nls
+mingw64-configure --disable-nls LDFLAGS="-static" CFLAGS="-DSIGSTOP=SIGINT -DSIGTSTP=SIGINT -DSIGALRM=SIGINT -DSIGHUP=SIGINT -DSIGQUIT=SIGINT -DSIGPIPE=SIGINT"
 
 # Hack around error in gnulib-tests (which doesn't matter)
 mv gnulib-tests gnulib-tests#
