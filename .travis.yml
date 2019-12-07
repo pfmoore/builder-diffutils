@@ -10,14 +10,15 @@ before_install:
 
 # Display the SHA-256 checksum of the file
 before_deploy:
-  - sha256sum diffutils-*.zip
+  - mv diffutils-*.zip diffutils-${TRAVIS_TAG}.zip
+  - sha256sum diffutils-${TRAVIS_TAG}.zip
 
 deploy:
   provider: releases
   api_key:
     secure: TaYdHDyt3GAIHeKjPIPph91RIOI+idfwVAhQ/vZ+LKtN/RBwlPvKebFkpavPubZzrd1Ru5VHNx+ewpxoKY/+Ml/8X0grIyRnLJFITWLFEhb1MqnadDuWHiUSrixVnehW8IJWy4QcpYcOYApAclD+DmbSJrTCO8WB0bjFcs2yZeR6WiuyNewmW49wwY+d8Kz4HClR4wJXsIMX1nhR/KvlHWii6yUdIxAR6wKqBhVc/42uAWZ7RL1yCyBpaXKVCKaOIZJZq6HIiG1FSviYkwA2KJJJOIupDwigjCZMAbNrD1MA7BZdn2R96u5T8EG5mDh9tyYJaqWOjMh4JrrKJHO8EUr7aqevyE9NXwOoy5qZsft8/Zcqv+Phq7GmR4aMMPlaSbl3LkbO5nBwxYZ0FN+AJVYj5TO+Ri+hdrQTL1KQxHZGjypLuIm2xgerVYkysOcGr0o4K0pQajOLqvM+SWis6Np0X9M5nf9vEmEVda2VfEELdDug6tzLlotCvzMWW3+k3BID8g1ryJGRBltOREgniBk3C3mieIThDC5zvYaJkruVIxF9P9M6BpLFgvvyYHdWLVmKTKd/C9jnVNOGCj8VQKSZPisp9Xy7CZWFTP4ngfu7xBuI2rUznUNTU97i1tUpZDRw8pIW3b5vJtyJJv3RLvNEDG+2oRCuBjIeckTwnnM=
-  file_glob: true
-  file: "diffutils-*.zip"
+  # file_glob: true
+  file: "diffutils-${TRAVIS_TAG}.zip"
   skip_cleanup: true
   on:
     tags: true
